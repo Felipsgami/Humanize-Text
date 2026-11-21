@@ -1,0 +1,65 @@
+# ENGLISH AI-SLOP LEXICON (US and UK) · read by scan.py
+# Commented rules and examples: ../references/blacklist-en.md ("item N" refers to that list).
+#
+# FORMAT (one rule per line, separator " ::: "):
+#   tier ::: id ::: applies ::: regex ::: note
+#   tier    = strong | weak | watch
+#   applies = all | no-technical | comma list of types (general, literary, script, short, chat, technical)
+#   regex   = Python, case-insensitive. Never use " ::: " inside it. US and UK spellings are both matched.
+#
+# SCALE (belongs to the meter; it does not soften the written rule):
+#   strong = ONE occurrence already calls for an edit (outside quotes, titles, proper names, italics).
+#   weak   = counts only in clusters (3 different ids in one paragraph, or 4 hits). Common in human speech.
+#   watch  = no evidence it is a tic. Reported, never scored.
+#
+# VALIDATION: every candidate was counted in human speech transcribed in English (see the README for the
+# corpus size). Two sources of "strong": (a) FIRST ORDER = editorial rule, kept even if people say it (asking
+# for likes is common in videos and still a tic in prose); (b) SECOND ORDER = admitted only below 5 per
+# million words in human speech. Very common spoken forms (actually, basically, in fact, so, however) are not
+# lexical markers: the context (series, emptiness) condemns them, and only reading decides.
+# Limit: the sample is SPEECH. Written-register words (delve, tapestry, intricate) always look rarer in speech
+# than in writing; that is why frequency alone never promotes a word to "strong".
+# When you edit: python scan.py --validate-lexicon <folder of human texts> --lang en
+
+# ── FIRST ORDER (items 1 to 17) ───────────────────────────────────────────────────────────────
+strong ::: era-frame ::: all ::: (?:in (?:a|today'?s) (?:world|era|age|landscape) (?:where|that|of)|in today'?s (?:fast-paced|digital|ever-changing|modern|rapidly)|since the dawn of|throughout (?:human )?history,|in an ever-(?:changing|evolving)) ::: item 1
+weak ::: age-of-x ::: all ::: \bin the (?:age|era) of (?:information|ai|social media|algorithms|big data|smartphones|streaming|disinformation) ::: item 1; a dated, specific era is fine
+strong ::: immersion-verb ::: all ::: (?:let'?s (?:dive|delve|explore|unpack|take a (?:deep|closer) (?:dive|look))|dive (?:deep )?into|embark on (?:a|this|our) journey|buckle up|join (?:me|us) as we) ::: item 2
+strong ::: clerk-hedging ::: all ::: (?:it(?:'s| is) (?:important|worth|crucial|essential) (?:to note|noting|to remember|to understand|to highlight)|it should be noted that|it bears mentioning|needless to say) ::: item 9; a caveat that adds a fact stays
+strong ::: anonymous-authority ::: all ::: (?:studies (?:show|suggest|indicate|have shown|prove)|research (?:shows|suggests|indicates|has shown)|experts (?:agree|say|believe|warn)|scientists (?:say|agree|have found)|according to (?:experts|research|science)|science (?:says|tells us)) ::: item 13; asks for the source
+strong ::: closing-gerund ::: all ::: (?:(?:transforming|reshaping|redefining|revolutionizing|revolutionising) (?:the way|how) (?:we|people)|paving the way for|opening (?:up )?new (?:possibilities|avenues|doors|horizons)|shaping the future of) ::: item 15
+strong ::: recap ::: all ::: (?:in conclusion,|to sum (?:it )?up,|in summary,|to summari[sz]e,|as we(?:'ve| have) (?:seen|explored|discussed)|all in all,) ::: item 16
+strong ::: social-cta ::: all ::: (?:(?:hit|smash) (?:that|the) (?:like|subscribe)|don'?t forget to (?:like|subscribe|share)|let me know in the comments|share (?:this|it) with (?:someone|anyone|a friend)|ring the bell) ::: item 17
+strong ::: fabricated-empathy ::: all ::: (?:you(?:'re| are) not alone|it'?s (?:okay|ok|perfectly normal) to (?:feel|not)|take a deep breath|be gentle with yourself) ::: item 12
+strong ::: not-x-but-y ::: all ::: (?:(?:it|this|that)(?:'s| is| was) not (?:just |only |merely |simply )?(?:about )?[^.;:!?]{2,50}[,;] (?:it(?:'s| is| was)|but)|not (?:just|only|merely) [^.;:!?]{2,50}, but (?:also )?|more than (?:just )?[^.;:!?]{2,40}, it(?:'s| is)) ::: item 5; if the denied belief has an owner in the sentence, the meter downgrades to watch
+
+# ── SECOND ORDER (items 18 to 28) ─────────────────────────────────────────────────────────────
+strong ::: chatbot ::: all ::: (?:great question[!.]|i hope (?:this|that) helps|happy to help!|certainly! here|absolutely! here(?:'s| is)|i'?d be (?:happy|glad) to help) ::: item 27
+weak ::: chatbot-spoken ::: all ::: (?:feel free to (?:ask|reach out)|let me know if (?:you|there)|would you like me to) ::: item 27; common in spoken English, so weak
+strong ::: knowledge-disclaimer ::: all ::: (?:as of my (?:last|latest) (?:update|knowledge|training)|my knowledge cutoff|as an ai(?: language model)?|while specific details are (?:limited|scarce)|(?:is|are) not widely documented) ::: item 27
+strong ::: deep-proverb ::: all ::: (?:at (?:its|the) (?:very )?core,|the real question (?:is|here is) (?:not|whether)|what truly matters|lies at the heart of) ::: item 19
+weak ::: deep-proverb-spoken ::: all ::: (?:at the end of the day|the bottom line is|what really matters|at the heart of) ::: item 19; idioms people say aloud, so weak
+strong ::: scaffolding ::: no-technical ::: (?:here'?s what you need to know|here'?s the kicker|let me break (?:it|this) down for you|the short answer\?|first, let'?s understand) ::: item 20
+weak ::: scaffolding-spoken ::: no-technical ::: (?:here'?s the (?:thing|catch|deal|truth)|let me break (?:it|this) down) ::: item 20; spoken habit, weak
+strong ::: inflated-significance ::: all ::: (?:(?:a )?(?:seminal|watershed) moment|enduring legacy|stands? as a testament|a testament to (?:the|his|her|their|its)|serves? as a (?:testament|stark reminder)|left an indelible mark|continues? to (?:thrive|flourish)|challenges and (?:future )?prospects|the future (?:looks|is) bright) ::: item 25
+weak ::: inflated-spoken ::: all ::: (?:(?:a )?(?:crucial|defining|pivotal) moment|game[- ]changer|continues? to inspire|serves? as a reminder) ::: item 25; common in speech, weak
+strong ::: interpretive-gerund ::: all ::: ,\s*(?:symboli[sz]ing|reflecting|evoking|embodying|encapsulating|mirroring|echoing|underscoring|highlighting|emphasi[sz]ing)\b ::: item 24; asserts meaning without a source, also a status error
+strong ::: ornamental-gerund ::: no-technical ::: ,\s*(?:showcasing|demonstrating|revealing|illustrating|fostering|cementing|solidifying|contributing to)\b ::: item 24
+strong ::: underscores ::: no-technical ::: \bunderscor(?:es|ing|ed) (?:the|its|their|how|that|a)\b ::: item 24
+strong ::: copula-avoidance ::: no-technical ::: (?:\bstands? as (?:a|an|the)\b|\bboasts? (?:a|an|over|more)\b|\bserves? as (?:a|an|the) (?:hub|cornerstone|beacon|bridge|catalyst)) ::: item 26; "works as / functions as" is a status marker and never goes here
+
+# ── WEAK (count only in clusters) ─────────────────────────────────────────────────────────────
+weak ::: brochure-adjective ::: all ::: \b(?:fascinating|incredible|revolutionary|robust|transformative|dynamic|innovative|vibrant|seamless|cutting-edge|groundbreaking|captivating|breathtaking|unparalleled|invaluable) ::: item 10
+weak ::: brochure-noun ::: all ::: \b(?:journey|ecosystem|paradigm|landscape|realm|tapestry|testament|cornerstone|beacon|catalyst|plethora|myriad|treasure trove) ::: item 10; paradigm in Kuhn, ecosystem in ecology are technical
+weak ::: elevated-register ::: all ::: \b(?:delv(?:e|es|ed|ing)|intricate|multifaceted|nuanced|holistic|comprehensive|meticulous(?:ly)?|navigat(?:e|es|ing) the complexities|ever-evolving|nestled|interplay|symphony of|dance (?:of|between)|resonat(?:e|es|ing) with) ::: item 10
+weak ::: elevation-verb ::: no-technical ::: \b(?:foster(?:s|ing)?|leverag(?:e|es|ing)|harness(?:es|ing)?|unlock(?:s|ing)? the|elevat(?:e|es|ing)|empower(?:s|ing)?|garner(?:s|ed)?|bolster(?:s|ing)?|streamlin(?:e|es|ing)) ::: item 10
+weak ::: avoided-copula ::: no-technical ::: (?:\bserves? as\b|\bfunctions? as a (?:hub|cornerstone)\b|\brepresents? (?:a|an|the)\b|\bconstitutes? (?:a|an|the)\b) ::: item 26; use "is" only where the source states identity
+weak ::: essay-connector ::: no-technical ::: \b(?:moreover|furthermore|additionally|in addition|on the other hand|that said|notably|importantly|ultimately|consequently), ::: item 3; counts only in series
+weak ::: vague-connection ::: all ::: \b(?:linked to|tied to|associated with|connected to|the relationship between|in dialogue with|speaks to|resonates with) ::: item 23; name the relation (cites, contradicts, derives from, measures)
+weak ::: strawman ::: all ::: \b(?:many people (?:think|believe|assume)|some (?:might|may|would) (?:say|argue|think)|it(?:'s| is) (?:often|commonly) (?:said|believed|assumed)|contrary to popular belief) ::: item 21; fine if the belief has an owner
+weak ::: ownerless-passive ::: all ::: \b(?:it is (?:believed|thought|said|widely considered) that|is (?:widely|generally) (?:regarded|considered|seen) as|reportedly|as far as i know) ::: item 27; never fill a gap with a guess
+weak ::: light-scaffolding ::: no-technical ::: (?:honestly\?|to be (?:honest|clear),|the truth is|the fact is|simply put,|in other words,|let'?s be (?:honest|clear)) ::: item 20; common in speech, can be voice
+weak ::: previous-version ::: general,technical ::: \b(?:previous version|earlier version|(?:was|has been) (?:removed|replaced|rewritten|updated) (?:in|to|by)|recent update|now (?:corrected|fixed)) ::: item 28; the present describes the present
+
+# ── WATCH (no evidence; not scored) ───────────────────────────────────────────────────────────
+watch ::: ornament-no-evidence ::: all ::: (?:\bdelicate balance\b|shed(?:s|ding)? (?:new )?light on|rich (?:cultural )?(?:heritage|history|tapestry)|a (?:rich|vibrant) tapestry|in the realm of|a symphony of) ::: frequent in AI prose, rare evidence of being a reliable marker

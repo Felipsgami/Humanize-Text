@@ -1,0 +1,64 @@
+# LÉXICO DE CACOETES DE IA EM PORTUGUÊS DO BRASIL · lido por scan.py
+# Regras e exemplos comentados: ../references/blacklist-pt-BR.md (os números "item N" remetem à lista de lá).
+#
+# FORMATO (uma regra por linha, separador " ::: "):
+#   peso ::: id ::: aplica ::: regex ::: nota
+#   peso   = strong | weak | watch
+#   aplica = all | no-technical | lista de tipos separada por vírgula (general, literary, script, short, chat, technical)
+#   regex  = Python, sem distinção de maiúscula. Nunca use " ::: " dentro dela.
+#
+# ESCALA (é do medidor; não afrouxa a regra escrita na lista negra):
+#   strong = UMA ocorrência já pede edição (fora de citação, título, nome próprio e termo em itálico).
+#   weak   = só pesa em aglomerado (3 tipos diferentes no mesmo parágrafo, ou 4 ocorrências). Palavra comum na fala.
+#   watch  = sem evidência de que seja tique. Listado no relatório, nunca pontuado.
+#
+# VALIDAÇÃO: cada candidato foi contado em cerca de 10 milhões de palavras de fala humana transcrita em
+# português (vídeos de canais brasileiros de cultura, ciência e filosofia). Duas origens de "strong":
+# (a) PRIMEIRA ORDEM = decisão editorial (vale mesmo que a fala humana use; pedido de like aparece muito em
+# vídeo e continua sendo cacoete em texto); (b) SEGUNDA ORDEM = só entrou quem ficou abaixo de 5 por milhão
+# na fala humana. As formas muito comuns na fala (ou seja, portanto, além disso, por fim, no fundo, a verdade
+# é que, ligado a, relação entre) NÃO são marcadores lexicais: ficam em "weak" ou fora, e o que as condena é
+# o CONTEXTO (série, vazio, relação sem nome), que só a leitura decide.
+# Limite: a amostra é FALA. Palavra de registro escrito (paradigma, constitui, intrincado) sempre parece
+# mais rara na fala do que na escrita; por isso nenhuma sobe a "strong" só pela frequência.
+# Ao mexer aqui: python scan.py --validate-lexicon <pasta de textos humanos> --lang pt
+
+# ── PRIMEIRA ORDEM (itens 1 a 17) ──────────────────────────────────────────────────────────────
+strong ::: moldura-de-epoca ::: all ::: (?:em um mundo (?:onde|em que)|num mundo (?:onde|em que)|desde os prim[óo]rdios|ao longo da hist[óo]ria,|no cen[áa]rio atual|vivemos em uma [ée]poca) ::: item 1
+weak ::: era-da-x ::: all ::: \bna era d[oa]s? (?:informa|digital|hiper|internet|redes|algoritm|intelig[êe]ncia|streaming|incerteza|desinforma|dados|conex) ::: item 1; "na era do PlayStation 2" é época específica e legítima
+strong ::: verbo-de-imersao ::: all ::: (?:vamos (?:explorar|mergulhar|desvendar|nos aprofundar|embarcar)|embarque nesta|prepare-se para|mergulh(?:ar|emos) fundo) ::: item 2
+strong ::: hedging-de-funcionario ::: all ::: (?:é importante (?:notar|ressaltar|destacar|salientar)|vale (?:ressaltar|notar|destacar)|cabe (?:aqui )?(?:notar|ressaltar|destacar|frisar|salientar)|é fundamental (?:entender|compreender|notar)) ::: item 9; ressalva que acrescenta fato fica
+weak ::: vale-lembrar ::: no-technical ::: (?:vale lembrar|é importante lembrar|é bom lembrar) ::: item 9; fala comum
+strong ::: autoridade-anonima ::: all ::: (?:estudos (?:mostram|indicam|apontam|comprovam|demonstram|sugerem)|pesquisas (?:mostram|indicam|apontam|sugerem)|cientistas (?:descobriram|afirmam|concordam)|segundo a ci[êe]ncia|especialistas (?:concordam|afirmam|apontam)|os eruditos) ::: item 13; pede a fonte, é também achado de verificação
+strong ::: gerundio-de-fecho ::: all ::: (?:transformando (?:o|a|nossa|nosso) |redefinindo (?:o|a) |abrindo (?:novas )?(?:possibilidades|caminhos|portas)|moldando (?:o|a) (?:futuro|forma)) ::: item 15
+strong ::: recapitulacao ::: all ::: (?:em conclus[ãa]o,|como vimos|recapitulando|em resumo,|neste v[íi]deo|nesta jornada) ::: item 16
+strong ::: cta-social ::: all ::: (?:deixe (?:o |seu )?(?:like|coment[áa]rio)|se inscreva|compartilhe com (?:quem|algu[ée]m)|deixe nos coment[áa]rios|ative o sininho) ::: item 17
+strong ::: empatia-fabricada ::: all ::: (?:voc[êe] n[ãa]o est[áa] sozinh[oa]|e tudo bem se|respire fundo) ::: item 12
+strong ::: nao-e-x-e-y ::: all ::: (?:n[ãa]o (?:é|foi|s[ãa]o|se trata d[eo]) (?:apenas |somente |s[óo] |meramente )?[^.;:!?]{2,60}[,;] (?:é|foi|s[ãa]o|mas|trata-se)|n[ãa]o (?:é|foi|s[ãa]o) [^.;:!?]{2,50}\. (?:é|foi|s[ãa]o) |mais do que [^.;:!?]{2,50}, (?:é|foi|s[ãa]o)) ::: item 5; se a crença negada tem dono na frase, o medidor rebaixa para watch
+
+# ── SEGUNDA ORDEM (itens 18 a 28) ──────────────────────────────────────────────────────────────
+strong ::: chatbot ::: all ::: (?:[óo]tima pergunta|espero ter ajudado|fico [àa] disposi[çc][ãa]o|posso (?:tamb[ée]m )?te ajudar|quer que eu (?:aprofunde|detalhe|desenvolva)|espero que isso ajude|claro! aqui) ::: item 27
+strong ::: disclaimer-de-conhecimento ::: all ::: (?:at[ée] a data (?:do meu|de meu) (?:treinamento|corte)|n[ãa]o (?:é|est[áa]|foi) amplamente documentad[oa]|com base (?:no|em) (?:meu|meus) (?:treinamento|dados de treinamento)|como (?:um )?modelo de linguagem) ::: item 27
+strong ::: proverbio-profundo ::: all ::: (?:no cerne d[eoa]|a verdadeira (?:quest[ãa]o|pergunta) (?:é|passa)|o que (?:realmente|de fato|verdadeiramente) importa|a quest[ãa]o central (?:é|passa)|ao final do dia) ::: item 19
+strong ::: andaime ::: no-technical ::: (?:aqui est[áa] o (?:que|ponto|segredo)|e aqui est[áa] o (?:ponto|detalhe|problema|truque)|o que voc[êe] precisa saber|primeiro, vamos entender) ::: item 20
+strong ::: significancia-inflada ::: all ::: (?:momento (?:crucial|decisivo|seminal|divisor)|legado (?:duradouro|perene|imorredouro)|divisor de [áa]guas|marca indel[ée]vel|continua (?:a )?(?:prosperar|florescer)|desafios e perspectivas|o futuro (?:parece|é|se mostra) promissor|ponto de virada (?:crucial|decisivo)) ::: item 25; termine no fato concreto, não na bênção
+strong ::: gerundio-interpretativo ::: all ::: ,\s*(?:simbolizando|evocando|refletindo|encapsulando|materializando|espelhando|ecoando)\b ::: item 24; afirma sentido sem fonte, logo também erro de estatuto
+strong ::: gerundio-enfeite ::: no-technical ::: ,\s*(?:demonstrando|revelando|sublinhando|ressaltando|destacando|evidenciando|refor[çc]ando)\b ::: item 24; no texto técnico o gerúndio explicativo é aceito
+strong ::: sublinha ::: no-technical ::: \bsublinh(?:a|am|ando) (?:que|a|o|como)\b ::: item 24
+strong ::: copula-decorativa ::: no-technical ::: (?:\bconfigur(?:a|am)-se como|\bapresent(?:a|am)-se como|\bconfigur(?:a|am) (?:um|uma)\b) ::: item 26; "funciona como" NUNCA entra aqui: é marcador de estatuto
+
+# ── FRACAS (contam só em aglomerado) ──────────────────────────────────────────────────────────
+weak ::: adjetivo-de-folheto ::: all ::: \b(?:fascinante|incr[íi]vel|revolucion[áa]ri[oa]|robust[oa]s?|transformador[a]?|din[âa]mic[oa]|inovador[a]?|imprescind[íi]vel|cativante|inigual[áa]vel|inestim[áa]vel) ::: item 10
+weak ::: substantivo-de-folheto ::: all ::: \b(?:jornada|ecossistema|paradigma|universo de|ess[êe]ncia d[eoa]|pilar(?:es)?|catalisador[a]?|panorama|pano de fundo) ::: item 10; paradigma em Kuhn e ecossistema em ecologia são termo técnico
+weak ::: registro-elevado-decorativo ::: all ::: \b(?:intrincad[oa]s?|vast[oa]s?|atemporal|atemporais|hol[íi]stic[oa]|abrangente|desvend(?:ar|ando|a|am)|te(?:cer|cendo|ce|cem)|sinfonia d[eoa]s?|dan[çc]a (?:entre|sutil)|ressoa(?:m|r|ndo)? (?:com|em)) ::: item 10; "sinfonia" de Beethoven é literal
+weak ::: verbo-de-elevacao ::: no-technical ::: \b(?:evidencia(?:m)?|fomenta(?:m)?|alavanca(?:m)?|impulsiona(?:m)?|permeia(?:m)?|reverbera(?:m)?) ::: item 10
+weak ::: copula-evitada ::: no-technical ::: (?:\bserve(?:m)? como\b|\bconstitui(?:m)? (?:um|uma|o|a)\b|\brepresenta(?:m)? (?:um|uma|o|a)\b) ::: item 26; troque por "é" só onde a fonte diz identidade
+weak ::: conector-de-redacao ::: no-technical ::: \b(?:al[ée]m disso|por outro lado|por fim|em suma|em contrapartida|dessa forma|nesse sentido|diante disso|nesse contexto), ::: item 3; pesa só em série
+weak ::: conexao-vaga ::: all ::: \b(?:ligad[oa]s? a[o]?s?|associad[oa]s? a[o]?s?|vinculad[oa]s? a[o]?s?|conex[ãa]o entre|rela[çc][ãa]o entre|em di[áa]logo com|dialoga(?:m)? com|ressoa(?:m)? com) ::: item 23; nomeie a relação (citou, contradiz, derivou de, mede)
+weak ::: espantalho ::: all ::: \b(?:muita gente (?:acha|pensa|diz|acredita)|muitos (?:pensam|dizem|acreditam|imaginam)|h[áa] quem (?:diga|pense|ache)|costuma-se (?:pensar|dizer|acreditar)) ::: item 21; vale se a crença tiver dono
+weak ::: passiva-sem-dono ::: all ::: \b(?:acredita-se que|sup[õo]e-se que|diz-se que|at[ée] onde (?:eu )?sei|segundo consta) ::: item 27; nunca preencher lacuna com palpite
+weak ::: andaime-leve ::: no-technical ::: (?:sinceramente\?|honestamente\?|direto ao ponto|a verdade é que|o fato é que|a realidade é que) ::: item 20; comum na fala, pode ser voz
+weak ::: versao-anterior ::: general,technical ::: \b(?:vers[ãa]o anterior|antes (?:dizia|era) |foi (?:removid[oa]|substitu[íi]d[oa]|reescrit[oa]) (?:na|em|por)|atualiza[çc][ãa]o (?:recente|anterior)) ::: item 28; o presente descreve o presente
+
+# ── OBSERVAR (sem evidência; não pontua) ──────────────────────────────────────────────────────
+watch ::: enfeite-sem-evidencia ::: all ::: (?:\btape[çc]aria\b|delicado equil[íi]brio|lan[çc](?:a|ar|ando|ou) luz sobre|\bmultifacetad[oa]|mosaico de|\binfluenciad[oa] por uma miríade) ::: zero ocorrência na fala humana medida: pode ser calco do inglês
